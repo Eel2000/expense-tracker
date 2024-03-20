@@ -1,77 +1,81 @@
 'use client'
 
 import Link from "next/link";
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
+import {Expense} from "@/app/lib/models/expense";
 
 export default function Page() {
-  
+
+    const [loading, setLoading] = useState<boolean>(false)
+    const [expenses, setExpenses] = useState<Expense[]>([])
+
+    const loadData = () => {
+        setLoading(true)
+        setTimeout(() => {
+            setLoading(false)
+        }, 1000)
+    }
+
+    const formatDate = (date: Date) => {
+        return date.toDateString()
+    }
+
     return (
         <main className="flex min-h-screen flex-col items-center justify-between p-24">
-            <div className="relative overflow-x-auto w-full">
-                <button><Link href="/modules/expenses/record/">Open</Link></button>
+            <div className="relative overflow-x-auto w-full ">
+                <div className="flex justify-between">
+                    <button onClick={() => loadData()}
+                            className="mb-4 hover:underline hover:text-gray-500 active:text-blue-300 active:underline">
+                        reload <span aria-hidden="true">&#8634;</span>
+                        {
+                            loading ?
+                                <span className="text-orange-700 font-bold mx-2"> loading...</span> : <>
+                                </>
+                        }
+                    </button>
+                    <button className="mb-4 hover:text-gray-500 active:text-blue-300 active:underline">
+                        <Link href="../../modules/expenses/record">
+                            Open <span aria-hidden="true">&rarr;</span>
+                        </Link>
+                    </button>
+                </div>
                 <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                     <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                     <tr>
                         <th scope="col" className="px-6 py-3">
-                            Product name
+                            Card Number
                         </th>
                         <th scope="col" className="px-6 py-3">
-                            Color
+                            Amount ( $ )
                         </th>
                         <th scope="col" className="px-6 py-3">
-                            Category
+                            Expense Date
                         </th>
                         <th scope="col" className="px-6 py-3">
-                            Price
+                            Reason
                         </th>
                     </tr>
                     </thead>
                     <tbody>
-                    <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                        <th scope="row"
-                            className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                            Apple MacBook Pro 17"
-                        </th>
-                        <td className="px-6 py-4">
-                            Silver
-                        </td>
-                        <td className="px-6 py-4">
-                            Laptop
-                        </td>
-                        <td className="px-6 py-4">
-                            $2999
-                        </td>
-                    </tr>
-                    <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                        <th scope="row"
-                            className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                            Microsoft Surface Pro
-                        </th>
-                        <td className="px-6 py-4">
-                            White
-                        </td>
-                        <td className="px-6 py-4">
-                            Laptop PC
-                        </td>
-                        <td className="px-6 py-4">
-                            $1999
-                        </td>
-                    </tr>
-                    <tr className="bg-white dark:bg-gray-800">
-                        <th scope="row"
-                            className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                            Magic Mouse 2
-                        </th>
-                        <td className="px-6 py-4">
-                            Black
-                        </td>
-                        <td className="px-6 py-4">
-                            Accessories
-                        </td>
-                        <td className="px-6 py-4">
-                            $99
-                        </td>
-                    </tr>
+                    {
+                        expenses.map(expense =>
+                            <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                                <th scope="row"
+                                    className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                    {expense.cardNumber}
+                                </th>
+                                <td className="px-6 py-4">
+                                    <span className="font-bold">$</span> {expense.amount}.00
+                                </td>
+                                <td className="px-6 py-4">
+                                    {formatDate(expense.expenseDate)}
+                                </td>
+                                <td className="px-6 py-4">
+                                    {expense.reason}
+                                </td>
+                            </tr>
+                        )
+                    }
                     </tbody>
                 </table>
             </div>
