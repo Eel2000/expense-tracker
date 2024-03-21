@@ -2,8 +2,9 @@
 
 import {ChangeEvent, useState} from "react";
 import {NewExpense} from "@/app/lib/models/newExpense";
-import {Input} from "postcss";
 import {BankCard} from "@/app/lib/models/bankCard";
+import {Select, SelectItem, Input, Textarea} from "@nextui-org/react";
+import {Button} from "@nextui-org/button";
 
 export default function Page() {
     const exp: NewExpense = {
@@ -25,7 +26,7 @@ export default function Page() {
             [event.target.name]: event.target.value,
         }))
     }
-    
+
     const saveExpense = (form: FormData) => {
         let expense = {
             cardId: form.get('cardId'),
@@ -53,42 +54,39 @@ export default function Page() {
             <form action={saveExpense} className="grid gap-5 w-[60%]">
                 <div className="grid grid-cols-1 gap-2">
                     <label>Amount in ($)</label>
-                    <input className="w-full p-2 active:border-blue-600 focus:outline-blue-600 rounded"
+                    <input className="w-full p-2 h-[55px] bg-gray-100 hover:bg-gray-200 active:border-blue-600 focus:outline-0 rounded-xl"
                            type="number" name="amount" value={newExpense.amount} onChange={handleTodoChanges}
-                           placeholder="enter the amount" aria-required="true" required={true}/>
+                           placeholder="0.00" aria-required="true" required={true}/>
                 </div>
 
                 <div className="grid grid-cols-1 gap-2">
-                    <label>Date</label>
-                    <input className="w-full p-2 focus:border-none focus:outline-blue-600 rounded"
+                    <Input label="Date of expense" className="w-full focus:border-none focus:outline-blue-600 rounded"
                            type="date" name="expenseDate" value={newExpense.expenseDate} onChange={handleTodoChanges}
-                           placeholder="enter the amount" aria-required="true" required={true}/>
+                           placeholder="enter the amount" aria-required="true" isRequired/>
                 </div>
 
                 <div className="grid grid-cols-1 gap-2">
-                    <label>Bank Cards</label>
-                    <select className="w-full p-2 focus:border-none focus:outline-blue-600 rounded" name="cardId" value={newExpense.cardId} onChange={handleTodoChanges}>
-                        <option>------- select a card ---------</option>
-                        {
-                            bankCards.map(card =>
-                                <option key={card.id} value={card.id} className="rounded">{card.cardNumber}</option>
-                            )
-                        }
-                    </select>
+                    <Select
+                        isRequired
+                        label="Bank card for"
+                        placeholder="Select a card"
+                        className="w-full">
+                        {bankCards.map((card) => (
+                            <SelectItem key={card.id} value={card.id}>
+                                {card.cardNumber}
+                            </SelectItem>
+                        ))}
+                    </Select>
                 </div>
 
                 <div className="grid grid-cols-1 gap-2">
-                    <label>Reason of the expense</label>
-                    <textarea rows={5} name="reason" value={newExpense.reason} onChange={handleTodoChanges}
-                              className="w-full p-2 active:border-blue-600 focus:outline-blue-600 focus:border-blue-600 rounded"
-                              placeholder="enter the amount" aria-required="true" required={true}/>
+                    <Textarea label="Reason of the expense" rows={5} name="reason" value={newExpense.reason} onChange={handleTodoChanges}
+                              className="w-full active:border-blue-600 focus:outline-blue-600 focus:border-blue-600 rounded"
+                              placeholder="enter the amount" aria-required="true" required isMultiline/>
                 </div>
 
-                <div className="grid grid-cols-2 gap-2">
-                    <input type="submit" value="Save"
-                           className="rounded bg-blue-600 h-[150%] active:bg-blue-700 text-white"/>
-                    <input type="reset" value="cancel & clean"
-                           className="rounded bg-gray-600 h-[150%] active:bg-gray-700 text-white"/>
+                <div className="grid grid-cols-1 gap-2">
+                    <Button size="lg" variant="flat" type="submit" color="primary">Save</Button>
                 </div>
             </form>
         </main>

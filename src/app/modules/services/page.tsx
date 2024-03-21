@@ -20,13 +20,13 @@ export default function Page() {
                     <input type="radio" checked={check}
                            className="group-active:outline-blue-500 h-3.5 w-3.5 rounded-3xl"/>
                     
-                    <label className="text-2xl font-semibold text-center cursor-pointer">Cards services & Management</label>
+                    <Link href="/modules/services/cards/" className="text-2xl font-semibold text-center cursor-pointer">Cards services & Management</Link>
                 </div>
                 <div onClick={() => handleClick()}
                      className="w-[500px] h-[500px] group grid grid-cols-1 bg-white rounded shadow hover:shadow-xl hover:border-blue-600 cursor-pointer">
                     <input type="radio" checked={!check}
                            className="group-active:outline-blue-500 h-3.5 w-3.5 rounded-3xl"/>
-                    <Link href="/modules/services/cards/" className="text-2xl font-semibold text-center cursor-pointer">Invoices services & Management</Link>
+                    <Link href="/modules/services/invoices/" className="text-2xl font-semibold text-center cursor-pointer">Invoices services & Management</Link>
                 </div>
             </div>
         </main>
