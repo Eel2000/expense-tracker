@@ -34,3 +34,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+.idea/.idea.expense-tracker.dir/.idea/indexLayout.xml
+.idea/.idea.expense-tracker.dir/.idea/vcs.xml
+.idea/.idea.expense-tracker.dir/.idea/.gitignore
