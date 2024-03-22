@@ -49,8 +49,8 @@ export default function Page() {
     }
 
     return (
-        <main className="flex min-h-screen flex-col items-center justify-between p-24">
-            <h1>New expense</h1>
+        <main className="flex min-h-screen flex-col items-center p-24">
+            <h1 className='text-[#304D30] text-center text-4xl font-bold mb-10'>New expense</h1>
             <form action={saveExpense} className="grid gap-5 w-[60%]">
                 <div className="grid grid-cols-1 gap-2">
                     <label>Amount in ($)</label>

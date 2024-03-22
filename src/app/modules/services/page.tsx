@@ -16,7 +16,7 @@ export default function Page() {
 
     return (
         <main
-            className='w-full px-4 py-10 flex items-center justify-center flex-col pt-24 h-full'>
+            className='w-full px-4 py-80 flex items-center justify-center flex-col pt-24 h-full'>
             <h1 className='text-[#304D30] text-center text-4xl font-bold mb-14'>
                 Services
             </h1>
