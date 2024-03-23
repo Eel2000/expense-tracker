@@ -22,3 +22,14 @@ export async function addCard(card: NewBankCard): Promise<any> {
     
     return response.ok;
 }
+
+export async function editOrDeleteCard(card: BankCard): Promise<any> {
+    const response = await fetch(process.env.baseUrl + "Card/edit",
+        {
+            method: 'PUT',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(card)
+        })
+    
+    return response.ok;
+}

@@ -7,7 +7,7 @@ import Swal from 'sweetalert2'
 import {Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, useDisclosure} from "@nextui-org/react";
 import {Button} from "@nextui-org/button";
 import CardTable from "@/app/components/cardTable";
-import {addCard, getCards} from "@/app/lib/services/cardService";
+import {addCard, editOrDeleteCard, getCards} from "@/app/lib/services/cardService";
 
 export default function Page() {
     const crd: NewBankCard = {
@@ -31,6 +31,19 @@ export default function Page() {
                 alert("new card was added")
             }).then(() => {
             performDataLoad().then(() => console.log("data refreshed"))
+        }).catch((error) => {
+            Swal.fire({
+                title: "E-Tracker",
+                text: error,
+                icon: "error"
+            })
+        })
+    }
+
+    const performDeletion = async (card: BankCard) => {
+
+        editOrDeleteCard(card).then(() => {
+            performDataLoad().then()
         }).catch((error) => {
             Swal.fire({
                 title: "E-Tracker",
@@ -84,11 +97,33 @@ export default function Page() {
         })
     }
 
+    const deleteCards = (card: BankCard) => {
+        Swal.fire({
+            title: "E-Tracker",
+            text: "Do you want to delete card?",
+            showDenyButton: true,
+            confirmButtonText: "Yes",
+            denyButtonText: `No`
+        }).then((result) => {
+            if (result.isConfirmed) {
+                performDeletion(card)
+                    .then(() => {
+                        alert("card deleted successfully!")
+                    })
+            }
+        });
+
+
+        card.isActive = false;//disable the card (soft-delete)
+
+    }
+
     const alert = (message: string, type: string = "success") => {
         Swal.fire({
             title: "E-Tracker",
             text: message,
-            icon: "success"
+            icon: "success",
+            timer: 1000
         }).then(() => console.log('done'))
     }
 
@@ -97,7 +132,7 @@ export default function Page() {
         <main className="flex min-h-screen flex-col items-center p-24">
             <h1 className="text-3xl">Cards - Management</h1>
             <Button color="primary" variant="solid" className="my-4" onPress={onOpen}>Add new card</Button>
-            <CardTable cards={cards}/>
+            <CardTable cards={cards} operation={deleteCards} refresh={performDataLoad}/>
             <Modal isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={false} isKeyboardDismissDisabled={true}>
                 <ModalContent>
                     {(onClose) => (
