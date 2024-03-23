@@ -44,7 +44,7 @@ export default function CardTable({cards, operation, refresh}: {
                 title: "E-Tracker",
                 text: 'operation completed successfully',
                 icon: "success"
-            }).then()
+            }).then(refresh)
         }).catch((err) => {
             Swal.fire({
                 title: "E-Tracker",
@@ -78,8 +78,8 @@ export default function CardTable({cards, operation, refresh}: {
         c.isActive = active
         performEdition(c).then(() => {
             setCard(crd)
-            refresh()
             onOpenChange()
+            refresh()
         })
     }
 
@@ -125,9 +125,7 @@ export default function CardTable({cards, operation, refresh}: {
                                 text: "Operation completed",
                                 icon: "success",
                                 timer: 1000
-                            }).then(() => {
-                                refresh()
-                            })
+                            }).then()
 
                             Swal.close()
                         })
