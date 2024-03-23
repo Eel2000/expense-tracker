@@ -76,12 +76,11 @@ export default function CardTable({cards, operation, refresh}: {
 
         let c = card;
         c.isActive = active
-        console.log(c)
-        // performEdition(card).then(() => {
-        //     setCard(crd)
-        //     refresh()
-        //     onOpenChange()
-        // })
+        performEdition(c).then(() => {
+            setCard(crd)
+            refresh()
+            onOpenChange()
+        })
     }
 
     const onEditRequested = (c: BankCard) => {
@@ -126,7 +125,7 @@ export default function CardTable({cards, operation, refresh}: {
                                 text: "Operation completed",
                                 icon: "success",
                                 timer: 1000
-                            }).then(()=>{
+                            }).then(() => {
                                 refresh()
                             })
 
@@ -176,13 +175,13 @@ export default function CardTable({cards, operation, refresh}: {
                                 <TableCell>
                                     <div className="relative flex items-center gap-2">
                                         {
-                                            !c.isActive?
-                                            <Tooltip content="Show">
+                                            !c.isActive ?
+                                                <Tooltip content="Show">
                                               <span onClick={() => onShowRequested(c)}
                                                     className="text-lg text-default-400 cursor-pointer active:opacity-50">
                                                 <LockFilledIcon color="success"/>
                                               </span>
-                                            </Tooltip>:<></>
+                                                </Tooltip> : <></>
                                         }
                                         {
                                             c.isActive ?
