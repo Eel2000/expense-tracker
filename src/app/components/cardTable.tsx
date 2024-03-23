@@ -5,8 +5,9 @@ import {DeleteIcon, EditIcon, EyeIcon} from "@nextui-org/shared-icons";
 
 export default function CardTable({cards}: { cards: BankCard[] }) {
 
-    const formatDate = (date: Date) => {
-        return date.toDateString()
+    const formatDate = (date: string) => {
+        let dateToForma = new Date(date)
+        return dateToForma.toDateString()
     }
 
     return (
@@ -22,7 +23,7 @@ export default function CardTable({cards}: { cards: BankCard[] }) {
                     cards.map(c =>
                         <TableRow key={c.id}>
                             <TableCell>{c.cardNumber}</TableCell>
-                            <TableCell>{c.sold}</TableCell>
+                            <TableCell>${c.sold}</TableCell>
                             <TableCell>{formatDate(c.addedOn)}</TableCell>
                             <TableCell>
                                 <div className="relative flex items-center gap-2">
@@ -31,12 +32,12 @@ export default function CardTable({cards}: { cards: BankCard[] }) {
                                         <EyeIcon/>
                                       </span>
                                     </Tooltip>
-                                    <Tooltip content="Edit user">
+                                    <Tooltip content="Edit card">
                                       <span className="text-lg text-default-400 cursor-pointer active:opacity-50">
                                         <EditIcon/>
                                       </span>
                                     </Tooltip>
-                                    <Tooltip color="danger" content="Delete user">
+                                    <Tooltip color="danger" content="Delete card">
                                       <span className="text-lg text-danger cursor-pointer active:opacity-50">
                                         <DeleteIcon/>
                                       </span>

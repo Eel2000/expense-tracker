@@ -1,25 +1,13 @@
 'use client'
 
 import {NewBankCard} from "@/app/lib/models/newBankCard";
-import {ChangeEvent, useState} from "react";
+import {ChangeEvent, useEffect, useState} from "react";
 import {BankCard} from "@/app/lib/models/bankCard";
 import Swal from 'sweetalert2'
-import {
-    Modal,
-    ModalContent,
-    ModalHeader,
-    ModalBody,
-    ModalFooter,
-    useDisclosure,
-    Table,
-    TableHeader,
-    TableColumn,
-    TableBody,
-    TableRow,
-    TableCell
-} from "@nextui-org/react";
+import {Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, useDisclosure} from "@nextui-org/react";
 import {Button} from "@nextui-org/button";
 import CardTable from "@/app/components/cardTable";
+import {addCard, getCards} from "@/app/lib/services/cardService";
 
 export default function Page() {
     const crd: NewBankCard = {
@@ -32,6 +20,39 @@ export default function Page() {
     const {isOpen, onOpen, onOpenChange} = useDisclosure();
     const [newCard, setNewCard] = useState<NewBankCard>(crd)
     const [cards, setCards] = useState<BankCard[]>([])
+
+    useEffect(() => {
+        performDataLoad().then(() => console.log("loaded cards"))
+    }, []);
+
+    const performCreation = async (card: NewBankCard) => {
+        addCard(card)
+            .then(() => {
+                alert("new card was added")
+            }).then(() => {
+            performDataLoad().then(() => console.log("data refreshed"))
+        }).catch((error) => {
+            Swal.fire({
+                title: "E-Tracker",
+                text: error,
+                icon: "error"
+            })
+        })
+    }
+
+    const performDataLoad = async () => {
+        getCards()
+            .then(data => {
+                setCards([...data])
+            })
+            .catch((error) => {
+                Swal.fire({
+                    title: "E-Tracker",
+                    text: error,
+                    icon: "error"
+                })
+            })
+    }
 
     const handleTodoChanges = (event: ChangeEvent<any>) => {
         event.preventDefault()
@@ -57,17 +78,16 @@ export default function Page() {
             isActive: true
         })
 
-        console.log(card)
-        alert(card, "data sent")
-        onOpenChange()
-
-        setNewCard(crd)
+        performCreation(newCard).then(() => {
+            setNewCard(crd)
+            onOpenChange()
+        })
     }
 
-    const alert = (data: any, message: string) => {
+    const alert = (message: string, type: string = "success") => {
         Swal.fire({
-            title: "Good job!",
-            text: `${message} : ${JSON.stringify(data)}`,
+            title: "E-Tracker",
+            text: message,
             icon: "success"
         }).then(() => console.log('done'))
     }

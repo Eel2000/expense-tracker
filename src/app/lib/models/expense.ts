@@ -6,5 +6,6 @@ export type Expense = {
     cardNumber: string
     expenseDate: Date,
     amount: number,
-    reason: string
+    reason: string,
+    isActive: boolean
 }

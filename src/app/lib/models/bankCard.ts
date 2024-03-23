@@ -5,5 +5,5 @@ export type BankCard = {
     cardNumber: string,
     sold: number,
     isActive: boolean
-    addedOn: Date
+    addedOn: string
 }
